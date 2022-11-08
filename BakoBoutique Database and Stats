@@ -1,0 +1,56 @@
+-Create a small clothing store's database
+
+/** Clothing list:
+Sweaters (40)
+Jeans (48)
+Shackets (32)
+Oversized Sweatshirts (35)
+Flannels (26)
+Bodysuits (25)
+Dresses (46)
+Coats (52)
+Cropped jackets(42)
+Fitted tees (24)
+Pants (45)
+Sweatpants (30)
+Tank tops (22)
+Two piece sets (50)
+Skirts (28)
+**/
+
+CREATE TABLE clothing ( id INTEGER PRIMARY KEY , name TEXT, price integer, numberinstock integer, newarrival TEXT, bestselling INTEGER);
+
+
+INSERT INTO clothing VALUES (1, "Sweaters", 40, 150,"Yes", 8);
+INSERT INTO clothing VALUES (2, "Jeans", 48,220,"no", 4);
+INSERT INTO clothing VALUES (3, "Shackets",32, 155,"yes", 8);
+INSERT INTO clothing VALUES (4, "Oversized Sweatshirts",35,200, "yes", 9);
+INSERT INTO clothing VALUES (5, "Flannels", 26,180, "yes", 5);
+INSERT INTO clothing VALUES (6, "Bodysuits",25,320,"no", 10);
+INSERT INTO clothing VALUES (7, "Dresses", 46,230, "no", 3);
+INSERT INTO clothing VALUES (8, "Coats", 52,100, "yes", 4);
+INSERT INTO clothing VALUES (9, "Cropped Jackets", 42,160, "no", 6);
+INSERT INTO clothing VALUES (10, "Fitted tees",24,170,"yes", 5);
+INSERT INTO clothing VALUES (11, "Pants", 45,200, "yes", 6);
+INSERT INTO clothing VALUES (12, "Sweatpants", 30,190,"no", 5);
+INSERT INTO clothing VALUES (13, "Tank tops",22,210, "no", 2);
+INSERT INTO clothing VALUES (14, "Two piece sets", 50,160, "yes", 6);
+INSERT INTO clothing VALUES (15, "Skirts", 28,90, "no", 4);
+
+-Display the database by price
+
+SELECT * FROM clothing;
+SELECT * FROM clothing ORDER BY price;
+
+-What piece do we have the most inventory of?
+
+SELECT name, MAX(numberinstock) FROM clothing;
+
+-What is our average inventory for the store?
+
+SELECT AVG(numberinstock) FROM clothing;
+
+-What are the top 5 best sellers?
+
+SELECT name, price, bestselling, FROM store ORDER BY bestselling desc;
+LIMIT 5;
