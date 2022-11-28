@@ -1,0 +1,32 @@
+Given a database of Khan academy user badges, answer some relevant questions regarding the data
+
+View the data:
+SELECT * FROM badges;
+SELECT date, badge_name, badge_type, energy_points FROM badges ORDER BY date desc
+
+What are the average, maximum, and minimum energy points of the users?
+SELECT AVG(energy_points) AS "avg_energy_points" , MAX(energy_points) AS "max_points" ,MIN(energy_points) AS "min_points" FROM badges;
+
+What are those where average and max energy points were greater than 12000
+SELECT date, badge_name, badge_type, 
+ROUND(AVG(energy_points),2) AS "avg_energy_points", MAX(energy_points) AS "max_points" FROM badges
+GROUP BY date
+HAVING avg_energy_points > 12000 AND max_points > 12000;
+
+Group the values in a relevant way using CASE
+	SELECT date,badge_name, badge_type,
+	    CASE
+	        WHEN energy_points > 10000-15000 THEN "Within target"
+	        WHEN energy_points < 10000 THEN "below target"
+	        WHEN energy_points > 15000 THEN "above target"
+	        ELSE "not target"
+	    END as "target"
+	FROM badges
+	GROUP BY target;
+
+How can we filter the data?
+SELECT badge_type,date, 
+MIN (energy_points) = 10000 OR 20000
+AND COUNT(*)
+FROM badges
+GROUP BY badge_type;
