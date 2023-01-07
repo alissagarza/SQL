@@ -25,7 +25,7 @@
 #4 Which product was the cheapest one sold in January, and what was the price?
  	 SELECT distinct product, price
 	 FROM BIT_DB.JanSales
-   ORDER BY price ASC LIMIT 1
+   	 ORDER BY price ASC LIMIT 1
 	 
 #5 What is the total revenue for each product sold in January?
    SELECT sum(quantity)*price as revenue, product
@@ -38,17 +38,50 @@
 	 Sum(quantity)*price as revenue
 	 FROM BIT_DB.FebSales
 	 WHERE location = '548 Lincoln St, Seattle, WA 98101'
-   Group BY product
+   	 Group BY product
   
 #7 How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
-   SELECT COUNT(distinct cust.acctnum),
-   Avg (quantity*price)
+   	 SELECT COUNT(distinct cust.acctnum),
+   	 Avg (quantity*price)
 	 FROM BIT_DB.FebSales FEB
 	 LEFT JOIN BIT_DB.Customers cust
 	 ON FEB.orderid=cust.order_id
 	 WHERE FEB.Quantity >2
 	 AND order_id <> ''
 	 AND order_id <> 'Order ID'
+	 
+#8 Select all the order dates placed during the week of 02/13/19-02/18/19
+	SELECT orderdate
+	FROM BIT_DB.FebSales
+	WHERE orderdate between '02/13/19 00:00' AND '02/18/19 00:00';
+
+#9 List all the products sold in Los Angeles in February, and include how many of each were sold.
+	SELECT Product, SUM(quantity)
+	FROM BIT_DB.FebSales
+	WHERE location like '%Los Angeles%'
+	GROUP BY Product;
+
+#10 Which location was the order on Feb 18th at 1:35 placed at?
+	SELECT location
+	FROM BIT_DB.FebSales
+	WHERE orderdate = '02/18/19 01:35';
+
+#11 How many of each product were sold for orders that were placed on 02/18/19?
+	SELECT sum(quantity) 
+	FROM BIT_DB.FebSales
+	WHERE orderdate like '02/18/19%'
+
+#12 Which types of batteries did customers purchase in February? 
+	SELECT distinct Product
+	FROM BIT_DB.FebSales
+	WHERE Product like '%Batteries%'
+
+#13 Which products do we have that are priced with .99 at end of the cost amount?
+	SELECT distinct Product 
+	FROM BIT_DB.FebSales
+	WHERE Price like '%.99'
+
+
 
 
 
