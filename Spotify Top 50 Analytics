@@ -1,0 +1,106 @@
+#In this code I am inserting a database containing data about Spotify's top 50 into a table
+#From that table I then use SQL to analyze the data.
+
+#First
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL )
+
+#Then I inserted the Spotify Data .csv into the table.
+
+#I analyzed the data by creating and answering the following questions:
+
+	1. What are the 10 most popular songs?
+	
+	SELECT track_name, MAX(popularity)
+	FROM BIT_DB.Spotifydata
+	GROUP BY  track_name
+	ORDER BY popularity desc
+	LIMIT 10;
+	
+	2. I want to make a playlist with the top 50 songs for a party. I want to start with the least danceable songs while the party is slow, and end with the most danceable to pick up the energy throughout the night and get everybody dancing. In what order should I play the songs?
+	
+	SELECT track_name, MIN(danceability)
+	FROM BIT_DB.Spotifydata
+	GROUP BY track_name
+	ORDER BY danceability;
+	
+	3. Which artists have more than 1 song in the Top 50 list? How many songs does each artist have?
+
+	SELECT artist_name, COUNT(artist_name)
+	FROM BIT_DB.Spotifydata
+	GROUP BY artist_name
+	HAVING COUNT(artist_name) > 1
+	ORDER BY COUNT(artist_name) desc;
+	
+	4. What is the average time for each song?
+
+	SELECT AVG(duration_ms)
+	FROM BIT_DB.Spotifydata;
+	
+	5. How many songs are 3 1/2 minutes or under?
+
+	SELECT COUNT(track_name)
+	FROM BIT_DB.Spotifydata
+	WHERE duration_ms < 197488;
+	
+	6. Which artists have songs with popularity 80 or above? What is the popularity rating for those songs?
+
+	SELECT artist_name, popularity
+	FROM BIT_DB.Spotifydata
+	WHERE popularity >= 80
+	GROUP BY artist_name
+	ORDER BY popularity desc;
+	
+	7. What is the average energy and danceability by artist and track?
+
+	SELECT artist_name, track_name, avg(energy), avg(danceability)
+	FROM BIT_DB.Spotifydata
+	GROUP BY artist_name, track_name;
+	
+	8. Which artist's song has the highest popularity, energy, and danceability? What is that track titled?
+
+	SELECT distinct artist_name, track_name, MAX(popularity), MAX(energy), MAX(danceability)
+	FROM BIT_DB.Spotifydata
+	GROUP BY artist_name, track_name
+	ORDER BY popularity desc, energy desc, danceability desc
+	LIMIT 1;
+	
+	9. List the top 5 artists and their songs that all have the highest danceability, energy, and popularity
+
+	SELECT distinct artist_name, track_name, MAX(popularity), MAX(energy), MAX(danceability)
+	FROM BIT_DB.Spotifydata
+	GROUP BY artist_name, track_name
+	ORDER BY popularity desc, energy desc, danceability desc
+	LIMIT 5;
+	
+	10. Who is the most popular artist according to Spotify Top 50?
+
+	SELECT distinct artist_name, MAX(popularity)
+	FROM BIT_DB.Spotifydata
+	GROUP BY artist_name
+	ORDER BY popularity desc
+	LIMIT 1;
+	
+	11. What is the track name(s) that the most popular artist sings?
+
+	SELECT track_name 
+	FROM BIT_DB.Spotifydata
+	WHERE artist_name = 'Olivia Rodrigo'
+	GROUP BY track_name;
